@@ -1,0 +1,55 @@
+<?php
+/*
+************************************************************
+Long name   : Internet programming classes - Offline package
+Short name  : IPC - Offline package
+Online view : http://ipc.alexeyabramov.info/
+Author      : Alexey Abramov
+E-mail      : abramov.developer@gmail.com
+LinkedIn    : https://www.linkedin.com/in/alexey-abramov-kz/
+City        : Christchurch / NewZealand
+Year        : 2020
+************************************************************
+*/
+?>
+
+<?php
+
+	include $_SERVER['DOCUMENT_ROOT'] . "/ip/config.php";
+
+	if ($_POST["id"] != '') {
+
+	$id     = trim(htmlspecialchars(stripslashes(cl($_POST["id"]))));
+
+    $dishtype_id      = trim(htmlspecialchars(stripslashes(cl($_POST["dishtype_id"]))));
+    $dishname         = trim(htmlspecialchars(stripslashes(cl($_POST["dishname"]))));
+    $price = trim(htmlspecialchars(stripslashes(cl($_POST["price"]))));
+    $available    = trim(htmlspecialchars(stripslashes(cl($_POST["available"]))));
+		$detail = trim(htmlspecialchars(stripslashes(cl($_POST["detail"]))));
+
+    $query = mysqli_query($mysqli, "UPDATE dish SET price='$price',dishtype_id='$dishtype_id',dish='$dishname',detail='$detail',available='$available' WHERE id='$id'");
+
+    header('Content-type: application/json; charset=utf-8');
+    $massiv_jasone['resultOK'] = true;
+    $massiv_jasone['message']  = "OK : ".$id;
+    $jason_encode              = json_encode($massiv_jasone);
+    echo $jason_encode;
+} else {
+
+	 $dishtype_id      = trim(htmlspecialchars(stripslashes(cl($_POST["dishtype_id"]))));
+    $dish         = trim(htmlspecialchars(stripslashes(cl($_POST["dish"]))));
+    $price = trim(htmlspecialchars(stripslashes(cl($_POST["price"]))));
+		$detail = trim(htmlspecialchars(stripslashes(cl($_POST["detail"]))));
+
+	$query = mysqli_query($mysqli, "INSERT dish (price,dishtype_id,dish,detail) VALUES ('$price','$dishtype_id','$dish','$detaiil')");
+
+    header('Content-type: application/json; charset=utf-8');
+    $massiv_jasone['resultOK'] = true;
+    $massiv_jasone['message']  = "OK";
+    $jason_encode              = json_encode($massiv_jasone);
+    echo $jason_encode;
+
+}
+
+
+?>
